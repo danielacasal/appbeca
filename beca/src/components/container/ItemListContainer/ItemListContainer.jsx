@@ -2,6 +2,7 @@ import {useState, useEffect } from 'react'
 import { Link, useParams} from 'react-router-dom'
 import {gFetch } from '../../../utils/gFetch.js'
 import ItemList from '../../ItemList/ItemList.jsx'
+import Loader from '../../Loader/Loader.jsx'
 
 export const ItemListContainer = ({saludo})=>{
     const [servicios, setServicios]= useState([])
@@ -34,7 +35,7 @@ export const ItemListContainer = ({saludo})=>{
         <div className='container'>
             {cargando 
            ?
-                <h4>Cargando...</h4>
+                <Loader/>
            :
             <ItemList servicios={servicios}/>
             }

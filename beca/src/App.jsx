@@ -12,22 +12,32 @@ import ItemDetailContainer from './components/container/ItemDetailContainer/Item
 import CartContainer from './components/container/CartContainer/CartContainer'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { CartContextProvider } from './context/CartContext'
+import { app } from './utils/firebase'
+import {getItems}  from './utils/firebase'
+
 
 function App() {
+
+  getItems();
+  console.log(app)
+
   return (
-    <BrowserRouter>
-      <Menu />
-      <Carrito />
-      <ComponenteContenedor saludo='bienvenido'/>
-      <Routes>
-        <Route path= '/' element={<ItemListContainer/>}/>
-        <Route path= '/detail/:detailId' element={<ItemDetailContainer/>}/>     
-        <Route path= '/categoria/:categoryId' element={<ItemListContainer/>}/>
-        <Route path= '/cart' element={<CartContainer/>}/>
-        <Route path= '*' element={<Navigate to='/'/>}/>
-      </Routes>
-      <Contacto />
-    </BrowserRouter>
+    <CartContextProvider>
+      <BrowserRouter>
+        <Menu />
+        <Carrito />
+        <ComponenteContenedor saludo='bienvenido'/>
+        <Routes>
+          <Route path= '/' element={<ItemListContainer/>}/>
+          <Route path= '/detail/:detailId' element={<ItemDetailContainer/>}/>     
+          <Route path= '/categoria/:categoryId' element={<ItemListContainer/>}/>
+          <Route path= '/cart' element={<CartContainer/>}/>
+          <Route path= '*' element={<Navigate to='/'/>}/>
+        </Routes>
+        <Contacto />
+      </BrowserRouter>
+    </CartContextProvider>
   )
 }
 

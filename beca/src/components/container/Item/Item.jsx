@@ -7,7 +7,7 @@ const Item = ({servicio}) => {
                 {servicio.name}
             </div>
             <div className='card-body'> 
-                <img src={servicio.image} className='w-100'/>
+                <img src={`/${servicio.image}`} className='w-100'/>
             </div>
             <div className='card-footer'> 
                 <h6>Categoria: {servicio.categoria}</h6>
