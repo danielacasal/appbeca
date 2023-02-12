@@ -1,6 +1,7 @@
-import {useState, useEffect } from 'react'
+import React, {useState, useEffect } from 'react'
 import { Link, useParams} from 'react-router-dom'
-import {gFetch } from '../../../utils/gFetch.js'
+import {collection, getDocs, getFirestore, query, where} from 'firebase/firestore'
+import {gFetch} from '../../../utils/gFetch'
 import ItemList from '../../ItemList/ItemList.jsx'
 import Loader from '../../Loader/Loader.jsx'
 
@@ -9,7 +10,34 @@ export const ItemListContainer = ({saludo})=>{
     const [cargando, setCargando]= useState(true)
     const {categoryId} = useParams()
 
+    useEffect(()=> {
 
+        const db =  getFirestore()
+        const queryCollection = collection(db, 'items')
+
+        if (categoryId) {
+            const queryCollectionFilter = query (queryCollection, where ('categoria', '==', categoryId))
+
+            getDocs(queryCollectionFilter)
+            .then(respuestaPromesa=> {
+               setServicios(respuestaPromesa.docs.map(servicio => ({id: servicio.id, ...servicio.data()})))
+            })
+                .catch(err => console.log(err))
+                .finally(()=> setCargando(false))
+
+
+
+        } else {
+        getDocs(queryCollection)
+        .then(respuestaPromesa=> {
+           setServicios(respuestaPromesa.docs.map(servicio => ({id: servicio.id, ...servicio.data()})))
+        })
+            .catch(err => console.log(err))
+            .finally(()=> setCargando(false))
+    }
+    }, [categoryId])
+
+/*
     useEffect(()=>{
         if(categoryId) {
             gFetch()
@@ -28,9 +56,9 @@ export const ItemListContainer = ({saludo})=>{
                 .finally(()=> setCargando(false))
         }
     }, [categoryId])
-    
-    console.log(categoryId)
 
+    */
+    
     return (
         <div className='container'>
             {cargando 

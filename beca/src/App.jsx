@@ -13,15 +13,8 @@ import CartContainer from './components/container/CartContainer/CartContainer'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { CartContextProvider } from './context/CartContext'
-import { app } from './utils/firebase'
-import {getItems}  from './utils/firebase'
-
 
 function App() {
-
-  getItems();
-  console.log(app)
-
   return (
     <CartContextProvider>
       <BrowserRouter>

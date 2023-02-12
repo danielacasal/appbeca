@@ -8,19 +8,28 @@ export const useCartContext =() => useContext(CartContext)
 export const CartContextProvider = ({children})=>{
     const [cartList, setCartList] = useState([])
 
-    const agregarCart = (servicio) => {
-        //if servicio  in CartList {
+    const agregarCart = (nuevoServicio) => {
+        
+        /*esto me duplica mas no me suma la cantidad no entiendo por que*/
+        const idx = cartList.findIndex(servicio => servicio.id === nuevoServicio.id)
 
-        //}
-        setCartList([...cartList, servicio])
+        if (idx !== -1) {
+            cartList[idx].cantidad = cartList[idx].cantidad + nuevoServicio.cantidad
+            setCartList([...cartList])
+        } else {
+            setCartList([...cartList, nuevoServicio])
+        }
+
     }
+
+    const cantidadTotal = () => cartList.reduce((count, objServicio) => count += objServicio.cantidad, 0 )
+
+    const precioTotal = () => cartList.reduce((count, objServicio) => count+= (objServicio.cantidad * objServicio.price), 0)
+
+    const eliminarItem = id => setCartList (cartList.filter(servicio => servicio.id !== id))
 
     const vaciarCart = () => {
         setCartList([])
-    }
-
-    const removeItem = () => {
-        setCartList(cartList.pop()) //arreglar
     }
 
     return ( 
@@ -28,7 +37,10 @@ export const CartContextProvider = ({children})=>{
         cartList,
         agregarCart,
         vaciarCart, 
-        removeItem
+        cantidadTotal,
+        precioTotal,
+        eliminarItem
+
     }}>
         {children}
     </CartContext.Provider>
