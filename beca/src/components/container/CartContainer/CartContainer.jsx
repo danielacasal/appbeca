@@ -2,7 +2,7 @@ import { useCartContext } from "../../../context/CartContext"
 
 const CartContainer = () => {
 
-const {cartList, vaciarCart, removeItem, precioTotal, eliminarItem} =  useCartContext()
+const {cartList, vaciarCart, precioTotal, eliminarItem} =  useCartContext()
 //rendering condicional
   return (
     <div>
