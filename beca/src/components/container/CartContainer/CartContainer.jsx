@@ -1,6 +1,8 @@
 import { useCartContext } from "../../../context/CartContext"
 import {addDoc, collection, doc, getFirestore, updateDoc} from 'firebase/firestore'
 import { useState } from 'react'
+import Swal from 'sweetalert2'
+
 
 const CartContainer = () => {
 
@@ -15,6 +17,7 @@ const {cartList, vaciarCart, precioTotal, eliminarItem} =  useCartContext()
 
 const generarOrden = (evento) => {
   evento.preventDefault()
+  console.log("Orden Generada")
 
   const order = {}
 
@@ -26,12 +29,15 @@ const generarOrden = (evento) => {
   const queryCollection =  collection(db, 'orders')
 
   addDoc(queryCollection, order)
-  .then(resp => console.log (resp))
+  .then(resp => 
+    Swal.fire({
+      title:"Orden enviada",
+      text: `Numero de orden: ${resp.id}`,
+      icon: "success",
+      showConfirmButton: false,
+      timer: 6000})
+    )
   .catch(err => console.log(err))
-
-  //
-  //const queryDocUpdate = doc(db, 'items','')
-
 }
 
 const handleOnChange = (evento) => {
@@ -43,6 +49,8 @@ const handleOnChange = (evento) => {
   })
 }
 console.log(dataForm)
+
+
 
   return (
     <>
@@ -65,38 +73,36 @@ console.log(dataForm)
 {precioTotal() !== 0 && <h4>Precio Total: {precioTotal()}</h4>}
 <button onClick={vaciarCart} className='btn btn-outline-danger'>Vaciar Carrito</button>
 <form onSubmit={generarOrden} className='form-control'>
-
-  {/*VALIDACIONES*/}
   <h3>Formulario</h3>
   <input 
-    type="text"
+    type="text" required
     name="name"
     placeholder="ingresar nombre"
     value={dataForm.name}
     onChange={handleOnChange}
   /><br/>
     <input 
-    type="phone"
+    type="phone" required
     name="phone"
     placeholder="ingresar telefono"
     value={dataForm.phone}
     onChange={handleOnChange}
   /><br/>
     <input 
-    type="email"
+    type="email" required
     name="email"
     placeholder="ingresar email"
     value={dataForm.email}
     onChange={handleOnChange}
   /><br/>
-    <input 
+    <input required
     type="email"
     name="validarEmail"
     placeholder="re-ingresar email"
     value={dataForm.validarEmail}
     onChange={handleOnChange}
-  /><br/>
-    <button type="submit" className='btn btn-outline-success'>Generar Orden</button>
+    /><br/>
+  {"email" !== "validarEmail" && <button type="submit" className='btn btn-outline-success'>Generar Orden</button>}
 </form>
 </div>}
     </>
