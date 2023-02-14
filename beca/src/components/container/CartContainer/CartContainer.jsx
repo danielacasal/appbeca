@@ -62,8 +62,11 @@ console.log(dataForm)
                               </div>
                             </div>)}
     <br/>
-
+{precioTotal() !== 0 && <h4>Precio Total: {precioTotal()}</h4>}
+<button onClick={vaciarCart} className='btn btn-outline-danger'>Vaciar Carrito</button>
 <form onSubmit={generarOrden} className='form-control'>
+
+  {/*VALIDACIONES*/}
   <h3>Formulario</h3>
   <input 
     type="text"
@@ -95,8 +98,6 @@ console.log(dataForm)
   /><br/>
     <button type="submit" className='btn btn-outline-success'>Generar Orden</button>
 </form>
-      {precioTotal() !== 0 && <h4>Precio Total: {precioTotal()}</h4>}
-    <button onClick={vaciarCart} className='btn btn-outline-danger'>Vaciar Carrito</button>
 </div>}
     </>
   )
