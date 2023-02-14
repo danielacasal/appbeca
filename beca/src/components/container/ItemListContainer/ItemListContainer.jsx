@@ -4,6 +4,52 @@ import {collection, getDocs, getFirestore, query, where} from 'firebase/firestor
 import {gFetch} from '../../../utils/gFetch'
 import ItemList from '../../ItemList/ItemList.jsx'
 import Loader from '../../Loader/Loader.jsx'
+import { db } from '../../../utils/firebase'
+
+export const ItemListContainer = ({saludo})=>{
+    const [servicios, setServicios]= useState([])
+    const [cargando, setCargando]= useState(true)
+    const {categoryId} = useParams()
+
+    useEffect(()=> {
+        const db = getFirestore()
+        const queryCollection = collection(db, 'servicios')
+
+        if (categoryId) {
+        const queryCollectionFilter = query (queryCollection, where('categoria', '==', categoryId))
+
+            getDocs(queryCollectionFilter)
+            .then(respuestaPromesa=> {
+                setServicios(respuestaPromesa.docs.map(servicio => ({id: servicio.id, ...servicio.data()})))
+            })
+            .catch(err => console.log(err))
+            .finally(()=> setCargando(false))
+        } else {
+            getDocs(queryCollection)
+            .then(respuestaPromesa=> {
+                setServicios(respuestaPromesa.docs.map(servicio => ({id: servicio.id, ...servicio.data()})))
+            })
+            .catch(err => console.log(err))
+            .finally(()=> setCargando(false))
+    }
+    
+    }, [categoryId])
+    console.log(servicios)
+    
+    return (
+        <div className='container'>
+            {cargando 
+           ?
+                <Loader/>
+           :
+            <ItemList servicios={servicios}/>
+            }
+        </div>
+    )
+}
+
+
+/*
 
 export const ItemListContainer = ({saludo})=>{
     const [servicios, setServicios]= useState([])
@@ -57,7 +103,6 @@ export const ItemListContainer = ({saludo})=>{
         }
     }, [categoryId])
 
-    */
     
     return (
         <div className='container'>
@@ -69,4 +114,4 @@ export const ItemListContainer = ({saludo})=>{
             }
         </div>
     )
-}
+}*/

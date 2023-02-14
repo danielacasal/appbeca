@@ -10,7 +10,7 @@ const ItemList = ({servicios}) => {
         flexWrap: 'wrap',
         }}>
            {
-           servicios.map(servicio => <Item key={servicio.key} servicio={servicio}/>)
+           servicios.map(servicio => <Item key={servicio.id} servicio={servicio}/>)
            }
         </div>
 
