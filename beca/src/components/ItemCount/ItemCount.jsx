@@ -20,7 +20,7 @@ const ItemCount = ({initial=1, stock=10, onAdd}) => {
     }
 
     const handleOnAdd = () => {
-        onAdd(`Cantidad: ${count}`)
+        onAdd(count)
     }
 
   return (

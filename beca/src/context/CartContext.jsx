@@ -10,7 +10,6 @@ export const CartContextProvider = ({children})=>{
 
     const agregarCart = (nuevoServicio) => {
         
-        /*esto me duplica mas no me suma la cantidad no entiendo por que*/
         const idx = cartList.findIndex(servicio => servicio.id === nuevoServicio.id)
 
         if (idx !== -1) {
