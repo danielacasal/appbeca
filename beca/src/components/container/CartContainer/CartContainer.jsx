@@ -15,7 +15,12 @@ const [dataForm, setDataForm] = useState({
 
 const {cartList, vaciarCart, precioTotal, eliminarItem} =  useCartContext()
 
+
 const generarOrden = (evento) => {
+  if (dataForm.email !== dataForm.validarEmail){
+    return false
+  } else {
+
   evento.preventDefault()
   console.log("Orden Generada")
 
@@ -39,6 +44,7 @@ const generarOrden = (evento) => {
     )
   .catch(err => console.log(err))
 }
+}
 
 const handleOnChange = (evento) => {
   console.log(evento.target.name)
@@ -49,8 +55,6 @@ const handleOnChange = (evento) => {
   })
 }
 console.log(dataForm)
-
-
 
   return (
     <>
@@ -102,7 +106,7 @@ console.log(dataForm)
     value={dataForm.validarEmail}
     onChange={handleOnChange}
     /><br/>
-  {"email" !== "validarEmail" && <button type="submit" className='btn btn-outline-success'>Generar Orden</button>}
+  <button type="submit" className='btn btn-outline-success'>Generar Orden</button>
 </form>
 </div>}
     </>
